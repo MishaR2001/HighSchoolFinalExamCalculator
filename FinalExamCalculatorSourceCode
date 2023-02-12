@@ -1,0 +1,106 @@
+//#4B0082 = indigo	
+//#FFDF00 = gold 
+//#BD5CF3 = button color
+setText("gp_Input", 80);
+setText("weight_Input", 20);
+setText("advance_GP", "80");
+setText("advance_Weight", "20");
+setText("advance_Target", "79.5");
+onEvent("calc_Button", "click", function() { 
+  setText("SpecialText","");
+  var temp =0;
+  getKeyValue("Total Uses",function(value){
+   temp = value;
+   temp++;
+   setKeyValue("Total Uses", temp, function(){});
+  });
+  var gp = getNumber("gp_Input");
+  var We = getNumber(("weight_Input"));
+  We = We/100;
+  var FeA = ((90 - (1-(We))*gp)/We);
+  var FeB = ((80 - (1 - (We))*gp)/We);
+  var FeC = ((70 - (1- (We))*gp)/We);
+  var FeD = ((60 - (1- (We))*gp)/We);
+  FeA = Math.round((FeA*10))/10;
+  FeB = Math.round((FeB*10))/10;
+  FeC = Math.round((FeC*10))/10;  
+  FeD = Math.round((FeD*10))/10; 
+   getKeyValue("Total Uses", function(value){
+    setText("total_Uses_Text_Box", "This program has been used " 
+    + value + " times");
+  });
+    setProperty("result_A", "text-color", "#4B0082");
+    setText("result_A", "The score you need to get a A (90%) is " + FeA +"%");
+    
+    setProperty("result_B", "text-color", "#4B0082");
+    setText("result_B", "The score you need to get a B (80%) is "+ FeB +"%");
+  
+    setProperty("result_C", "text-color", "#4B0082");
+    setText("result_C", "The score you need to get a C (70%) is "+ FeC +"%");
+  
+    setProperty("result_D", "text-color", "#4B0082");
+    setText("result_D", "The score you need to get a D (60%) is " + FeD +"%");
+  if(gp>=90){ 
+   setText("SpecialText", "WOW you have a " + gp + "%" +" you should be a point Tutor"); 
+  }
+  if(FeA<=100){
+      setProperty("result_A", "text-color", "WHITE");
+  }
+  else if(FeB<=100){ 
+      setProperty("result_B", "text-color", "WHITE");
+  } 
+  else if(FeC<=100){
+      setProperty("result_C", "text-color", "WHITE");
+  } 
+  else if(FeD<=100){
+      setProperty("result_D", "text-color", "WHITE");
+  }else{ 
+  setText("result_A",""); 
+  setText("result_B","Please see your teacher immediately to see if you can boost your grade"); 
+  setText("result_C",""); 
+  setText("result_D",""); 
+  setText("SpecialText",""); 
+  }
+  setScreen("result_Screen");
+});
+//advance calculator mode
+onEvent("advance_Button", "click", function() {
+  setScreen("advance_Screen");
+});
+onEvent("calc_2", "click", function( ) {
+  var gpa = getNumber("advance_GP");
+  var wea = getNumber("advance_Weight");
+  var target = getNumber("advance_Target");
+  var wea = wea / 100;
+  var Fe_a = ((target - (1- (wea))*gpa)/wea);
+  Fe_a = Math.round((Fe_a*10))/10;
+  getKeyValue("Total Uses", function(value){
+    setText("total_Uses_Text_Box", "This program has been used " 
+    + value + " times");
+  });
+  setText("result_A",""); 
+  setText("result_B","The score you need to get a "+target+"% is a "+Fe_a+"%"); 
+  setText("result_C",""); 
+  setText("result_D",""); 
+  setText("SpecialText",""); 
+  if(gpa>=90){ 
+   setText("SpecialText", "WOW you have a " + gpa + " you should be a point Tutor"); 
+  }
+  setScreen("result_Screen");
+});
+onEvent("reset_Button", "click", function( ) {
+  setScreen("start_Screen");
+  setText("gp_Input", "80");
+  setText("weight_Input", "20");
+  setText("advance_GP", "80");
+  setText("advance_Weight", "20");
+  setText("advance_Target", "79.5");
+}); 
+onEvent("mainMenu_Button","click", function() { 
+  setScreen("start_Screen");
+  setText("gp_Input", "80");
+  setText("weight_Input", "20");
+  setText("advance_GP", "80");
+  setText("advance_Weight", "20");
+  setText("advance_Target", "79.5");
+});
